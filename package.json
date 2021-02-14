@@ -1,0 +1,30 @@
+{
+  "name": "meteo-station",
+  "version": "0.0.1",
+  "description": "Meteo station which is connected to IOT plateform (thinger.io)",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run install:back && npm run install:front",
+    "install:back": "cd back && npm i",
+    "install:front": "cd front && npm i",
+    "build": "npm run build:front && npm run build:back",
+    "build:back": "cd back && npm run build",
+    "build:front": "cd front && npm run build",
+    "copy:front": "cp -avr ./front/docs/meteo-station ./back/build/meteo-station-front",
+    "postbuild": "npm run copy:front",
+    "start": "cd back && npm start"
+  },
+  "keywords": [
+    "meteo",
+    "station",
+    "iot",
+    "thinger.io",
+    "nestjs",
+    "angular"
+  ],
+  "author": "Xavier Tagliarino <xavier.tagliarino@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  }
+}

@@ -30,7 +30,7 @@ async function bootstrap() {
   // Default CORS
   app.enableCors();
   // Default Helmet
-  app.use(helmet());
+  //app.use(helmet());
   
   // Configure OPEN API Swagger
   const configOpenApi = new DocumentBuilder()  

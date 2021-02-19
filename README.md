@@ -30,7 +30,7 @@ This is Back-End API for communicating with a IOT Meteo Station
 
 #### Deployment
 
-- Deploy on Heroku
+- Deploy on Heroku : https://dashboard.heroku.com/apps
 
 ### Others topics
 

@@ -28,7 +28,9 @@ This is Back-End API for communicating with a IOT Meteo Station
 #### REST API exposed with openapi
 - Nestjs open api page : https://docs.nestjs.com/openapi/introduction
 
+#### Deployment
 
+- Deploy on Heroku
 
 ### Others topics
 

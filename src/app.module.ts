@@ -22,10 +22,10 @@ console.log(join(__filename.replace(basename(__filename),''), '../', 'meteo-stat
     StatsModule,
     StationModule,
     AuthModule,
-    ServeStaticModule.forRoot({
+    /*ServeStaticModule.forRoot({
       rootPath:join(__filename.replace(basename(__filename),''), '../', 'meteo-station-front'),
       exclude: ['/api/*'],
-    }),      
+    }),*/      
   ],
   controllers: [AppController],
   providers: [

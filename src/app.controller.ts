@@ -12,7 +12,7 @@ import { AuthService } from './auth/auth.service';
 @ApiTags('Hello')
 @Controller("/")
 export class AppController {
-  
+
   /**
    * A logger for this contoller
    */
@@ -24,14 +24,14 @@ export class AppController {
    * 
    * @param appService 
    */
-  
-  
-  constructor(
-    private readonly appService: AppService,
-    private readonly authService: AuthService) { 
 
-    }
-  
+
+  constructor(
+    private readonly appService: AppService
+  ) {
+
+  }
+
   /**
     * Try to return a Hello message
     */
@@ -41,51 +41,11 @@ export class AppController {
     type: Hello,
     description: 'Hello message to welcome to Meteo API'
   })
-  @Get()  
+  @Get()
   getHello(): Hello {
     this.logger.log('Try to say hello message');
     const helloMessage = this.appService.getHello();
-    this.logger.log(`Hello message is : ${helloMessage.message}`);    
+    this.logger.log(`Hello message is : ${helloMessage.message}`);
     return helloMessage;
   }
-
-    
-  //@UseGuards(AuthGuard('google'))   
-  @Get('connect')
-  connect( @Query('code') code, @Res() res): any {
-    this.logger.log(`try to get code:${code}`);
-    res.redirect(`/log?code=${code}`,301);
-    return code;    
-  }
-
-  /**
-    * Try to connect
-    */
-
-  @UseGuards(AuthGuard('google'))   
-  @Get('log')
-  log(@Req() req): any {
-    this.logger.log(`try to get infos`);
-    return this.authService.googleInfos(req);
-  }
-  
-  /**
-    * Try to auth
-    */
-
-  @UseGuards(AuthGuard('jwt'))  
-  @Get('auth')
-  checkJwtAuth(): void {
-    this.logger.log(`JWT Auth is OK if you can see it. Pennywise is here ! they float all here ^^`);
-  }
-
-  /**
-    * Try to auth
-    */
-
-   @UseGuards(AuthGuard('google'))  
-   @Get('google')
-   checkAuth(@Res() res): void {
-    this.logger.log(`Try google auth`);
-   }
 }

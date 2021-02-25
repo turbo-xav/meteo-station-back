@@ -66,11 +66,14 @@ export class MeteoService {
      * @param insee : insee code (ex : 94081)
      */
 
-    public async getEphemeride(insee: string): Promise<Ephemeride> {
-        const url = `${this.configService.get('METEO_API_URL')}/ephemeride/0?insee=${insee}`;
-        console.log(url)
-        const response = await this.httpService.get(`${url}`).toPromise();
-        return response.data !== undefined && response.data.ephemeride !== undefined ? response.data.ephemeride : null;     
+    public async getEphemerides(insee: string): Promise<Ephemeride[]> {
+        let ephemerides: Ephemeride[]  = [];
+        for(let day = 0 ; day < 14 ; day++) {
+            const url = `${this.configService.get('METEO_API_URL')}/ephemeride/${day}?insee=${insee}`;        
+            const response = await this.httpService.get(`${url}`).toPromise();
+            ephemerides.push(response.data !== undefined && response.data.ephemeride !== undefined ? response.data.ephemeride : null);
+        }
+        return ephemerides;
     }
 
     /**

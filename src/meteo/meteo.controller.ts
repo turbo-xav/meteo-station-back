@@ -70,10 +70,11 @@ export class MeteoController {
     type: Ephemeride,
     description: 'Actual city\'s ephemeride'
   })
-  @Get('ephemeride/:city')
-  async getEphemride(@Param('city') city: string ): Promise<Ephemeride> {
+  @Get('ephemerides/:city')
+  async getEphemride(@Param('city') city: string ): Promise<Ephemeride[]> {
     const cityDetail: City = await this.meteoService.localise(city); 
-    return this.meteoService.getEphemeride(cityDetail.insee);
+    for(let i = 0 ; i < 14 ; ++i){}
+    return this.meteoService.getEphemerides(cityDetail.insee);
   }
 
    /**

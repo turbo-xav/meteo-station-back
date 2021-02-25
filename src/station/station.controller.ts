@@ -82,7 +82,7 @@ export class StationController {
      * @param switchState : ON or OFF
      */
 
-    @Post('device/:resource')
+    @Put('device/:resource')
     async switchresource(@Body() switchOnOFF: SwitchState, @Param('resource') resource: string ): Promise<void> {
       return await this.stationService.switchresource(resource,switchOnOFF);
     }

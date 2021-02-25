@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwitchState } from './models/switch-state.interface';
 import { Measurement } from './models/mesurement.entity';
 import { StationService } from './station.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 /**
   * You can control the meteo station with this controller
@@ -15,6 +16,7 @@ import { StationService } from './station.service';
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
 @Controller('station')
+@UseGuards(JwtAuthGuard)
 export class StationController {
     constructor(private readonly stationService: StationService) { }
     
@@ -34,6 +36,15 @@ export class StationController {
     @Get('device')
     async getDevice(): Promise<any> {      
       return await this.stationService.getDevice();
+    }
+
+    /**
+     * Get registered meteo station
+     */
+
+    @Get('device/stats')
+    async getDeviceStats(): Promise<any> {      
+      return await this.stationService.getDeviceStats();
     }
 
     /**

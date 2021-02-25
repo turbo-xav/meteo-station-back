@@ -10,7 +10,7 @@ import { AuthService } from './auth/auth.service';
  */
 
 @ApiTags('Hello')
-@Controller("/")
+@Controller("")
 export class AppController {
 
   /**

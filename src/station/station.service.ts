@@ -70,6 +70,15 @@ export class StationService {
     }
 
     /**
+     * Get registered meteo station
+     */
+
+    public async getDeviceStats(): Promise<any> {
+      const response = await this.httpService.get(`${this.rootUrl}${this.devicesUrl}/${this.deviceId}/stats`).toPromise();
+      return response.data; 
+  }
+
+    /**
      * Can switch OFF or OFF a resource
      * 
      * @param resource : resource like (heater-state, led-state) 

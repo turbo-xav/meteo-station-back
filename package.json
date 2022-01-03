@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf ./build",
     "build": "nest build",
-    "postbuild":"cp -avr ./meteo-station-front ./build/meteo-station-front",    
+    "postbuild": "cp -avr ./meteo-station-front ./build/meteo-station-front",
     "start": "npm run start:prod",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

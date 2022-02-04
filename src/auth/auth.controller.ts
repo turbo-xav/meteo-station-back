@@ -46,9 +46,9 @@ export class AuthController {
   @Get('code')
   connect(@Query('code') code, @Res() res): any {
     this.logger.log(`try to get code:${code}`);    
-    const url2 = `${this.configService.get('FRONT_URL_REDIR')}${encodeURIComponent(code)}`;
-    this.logger.log(`redirect to : ${url2}`);
-    res.redirect(301, url2);
+    const url = `${this.configService.get('FRONT_URL_REDIR')}${encodeURIComponent(code)}`;
+    this.logger.log(`redirect to : ${url}`);
+    res.redirect(301, url);
   }
 
   @UseGuards(AuthGuard('google'))

@@ -24,7 +24,7 @@ export class StationController {
       * Get all devices
       */
 
-    @Get('devices')
+    @Post('devices')
     async getDevices(): Promise<any> {      
       return await this.stationService.getDevices();
     }

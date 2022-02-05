@@ -4,7 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
+
+import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
+import { ConfigService } from '@nestjs/config';
+
+
 /**
  *  We can define an env var to choose another port
  */
@@ -28,11 +33,21 @@ async function bootstrap() {
   app.use(morgan('dev'));
 
   // Default CORS
-  app.enableCors();
+  const configService = app.get(ConfigService);
+  
+  app.enableCors({
+    origin: configService.get<string>('FRONT_URL'),
+    credentials: true    
+  });
   // Default Helmet
   app.use(helmet());
-  // CSRF
-  //app.use(csurf());
+  // CSRF  
+  app.use(cookieParser()); 
+  app.use(csurf({ cookie: true }));
+  app.use('*', function (req, res, next) {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    next();
+  });
 
 
   // Configure OPEN API Swagger

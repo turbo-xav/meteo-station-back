@@ -16,9 +16,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
-import { config } from 'dotenv';
-config();
-
+//import { config } from 'dotenv';
+//config();
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {

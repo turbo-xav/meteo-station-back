@@ -37,15 +37,20 @@ async function bootstrap() {
   
   app.enableCors({
     origin: configService.get<string>('FRONT_URL'),
-    credentials: true    
+    credentials: true
   });
   // Default Helmet
   app.use(helmet());
   // CSRF  
   app.use(cookieParser()); 
   app.use(csurf({ cookie: true }));
-  app.use('*', function (req, res, next) {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
+  app.use('*', (req, res, next) => {
+    const token: string = req.csrfToken();
+    res.cookie('XSRF-TOKEN', token);
+    res.header("Access-Control-Expose-Headers", "XSRF-TOKEN");
+    //res.header("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN");
+    res.header('XSRF-TOKEN',  token);
+    console.log('token', token)
     next();
   });
 

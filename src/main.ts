@@ -48,7 +48,7 @@ async function bootstrap() {
     const token: string = req.csrfToken();
     res.cookie('XSRF-TOKEN', token);
     res.header("Access-Control-Expose-Headers", "XSRF-TOKEN");
-    //res.header("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN");
+    res.header("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN");
     res.header('XSRF-TOKEN',  token);
     console.log('token', token)
     next();

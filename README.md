@@ -38,3 +38,9 @@ This is Back-End API for communicating with a IOT Meteo Station
 
 #### Redefine your own HttpModule
 - https://github.com/paztek/nestjs-http-service-example/blob/master/src/http/http.module.ts
+
+### SSL
+
+#### Generate private key & public key
+- ssh-keygen
+#### Copy public key on server

@@ -14,24 +14,26 @@ import * as fs from 'fs';
  *  We can define an env var to choose another port
  */
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 2000;
 
 /**
  * It starts our HTTP application
  */
 
 async function bootstrap() {
+  
   const httpsOptions = {
-    //key: fs.readFileSync('./cert/key.pem'),
-    //cert: fs.readFileSync('./cert/cert.pem')
-    key: fs.readFileSync('./cert/meteo-back.projets-web.fr/private.key'),
-    cert: fs.readFileSync('./cert/meteo-back.projets-web.fr/certificate.crt')
+    // Local
+    //key: fs.readFileSync('./cert2/key.pem'),
+    //cert: fs.readFileSync('./cert2/cert.pem')
+    // Droplet
+    key: fs.readFileSync('./cert2/meteo-back.projets-web.fr/private.key'),
+    cert: fs.readFileSync('./cert2/meteo-back.projets-web.fr/certificate.crt')
+
   };
-  const app = await NestFactory.create(AppModule, {
-    httpsOptions
-  });
   // Create the Nest App Instance
-  //const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,  { httpsOptions });
+  
 
   // All Url begin with "api" ex: http://urlweb.domain/api/....
   app.setGlobalPrefix('api');

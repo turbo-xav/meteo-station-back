@@ -8,7 +8,7 @@ import * as morgan from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import { ConfigService } from '@nestjs/config';
-
+import * as fs from 'fs';
 
 /**
  *  We can define an env var to choose another port
@@ -21,8 +21,17 @@ const PORT = process.env.PORT || 80;
  */
 
 async function bootstrap() {
+  const httpsOptions = {
+    //key: fs.readFileSync('./cert/key.pem'),
+    //cert: fs.readFileSync('./cert/cert.pem')
+    key: fs.readFileSync('./cert/meteo-back.projets-web.fr/private.key'),
+    cert: fs.readFileSync('./cert/meteo-back.projets-web.fr/certificate.crt')
+  };
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions
+  });
   // Create the Nest App Instance
-  const app = await NestFactory.create(AppModule);
+  //const app = await NestFactory.create(AppModule);
 
   // All Url begin with "api" ex: http://urlweb.domain/api/....
   app.setGlobalPrefix('api');

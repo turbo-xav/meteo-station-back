@@ -52,4 +52,4 @@ jobs:
             username: ${{ secrets.REMOTE_USER }}
             key: ${{ secrets.SERVER_SSH_KEY }}
             port: 22
-            script: npm i && npm run build && chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh &&  ${{ secrets.REMOTE_TARGET }}/scripts/./start.sh
+            script: cd ${{ secrets.REMOTE_TARGET }} && npm i && npm run build && chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh &&  ${{ secrets.REMOTE_TARGET }}/scripts/./start.sh

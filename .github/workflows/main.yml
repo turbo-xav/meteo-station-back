@@ -52,4 +52,4 @@ jobs:
             username: ${{ secrets.REMOTE_USER }}
             key: ${{ secrets.SERVER_SSH_KEY }}
             port: 22
-            script: chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh &&  ./${{ secrets.REMOTE_TARGET }}/scripts/start.sh
+            script: chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh &&  ${{ secrets.REMOTE_TARGET }}/scripts/./start.sh

@@ -52,4 +52,4 @@ jobs:
             username: ${{ secrets.REMOTE_USER }}
             key: ${{ secrets.SERVER_SSH_KEY }}
             port: 22
-            #script: cd /home/root/deploy-test && npm i && npm start
+            script: chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh &&  ${{ secrets.REMOTE_TARGET }}/scripts/ && ./start.sh

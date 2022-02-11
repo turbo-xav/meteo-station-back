@@ -21,13 +21,11 @@ const PORT = process.env.PORT || 2000;
  */
 
 async function bootstrap() {
+  const privateKeyFile = process.env.NODE_ENV === 'prod' ?'./cert2/meteo-back.projets-web.fr/private.key':'./cert2/key.pem';
+  const certFile = process.env.NODE_ENV === 'prod' ?'./cert2/meteo-back.projets-web.fr/certificate.key':'./cert2/cert.pem';
   const httpsOptions = {
-    // Local
-    key: fs.readFileSync('./cert2/key.pem'),
-    cert: fs.readFileSync('./cert2/cert.pem'),
-    // Droplet
-    //key: fs.readFileSync('./cert2/meteo-back.projets-web.fr/private.key'),
-    //cert: fs.readFileSync('./cert2/meteo-back.projets-web.fr/certificate.crt')
+    key: fs.readFileSync(privateKeyFile),
+    cert: fs.readFileSync(certFile),    
   };
   // Create the Nest App Instance
   const app = await NestFactory.create(AppModule, { httpsOptions });

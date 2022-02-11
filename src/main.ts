@@ -56,9 +56,13 @@ async function bootstrap() {
   // CSRF
   app.use(cookieParser());
   app.use(
-    csurf({ cookie: true }),
+    //csurf({ cookie: true }),
     csurf({
-      sameSite: 'none'
+      signed: false,
+      secure: false,
+      httpOnly: false,
+      sameSite: 'none',
+      domain: 'localhost:8080',
     }),
   );
   app.use('*', (req, res, next) => {

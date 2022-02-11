@@ -21,8 +21,14 @@ const PORT = process.env.PORT || 2000;
  */
 
 async function bootstrap() {
-  const privateKeyFile = process.env.NODE_ENV === 'prod' ? './cert2/meteo-back.projets-web.fr/private.key':'./cert2/key.pem';
-  const certFile = process.env.NODE_ENV === 'prod' ? './cert2/meteo-back.projets-web.fr/certificate.crt':'./cert2/cert.pem';
+  const privateKeyFile =
+    process.env.NODE_ENV === 'prod'
+      ? './cert2/meteo-back.projets-web.fr/private.key'
+      : './cert2/key.pem';
+  const certFile =
+    process.env.NODE_ENV === 'prod'
+      ? './cert2/meteo-back.projets-web.fr/certificate.crt'
+      : './cert2/cert.pem';
   const httpsOptions = {
     key: fs.readFileSync(privateKeyFile),
     cert: fs.readFileSync(certFile),
@@ -50,13 +56,12 @@ async function bootstrap() {
   // CSRF
   app.use(cookieParser());
   app.use(
-    csurf(
-      {
-        sameSite: 'none',
-        secure: true,
-        domaine: 'localhost',
-      },
-    ),
+    csurf({ cookie: true }),
+    /*csurf({
+      sameSite: 'none',
+      secure: true,
+      domaine: 'localhost',
+    }),*/
   );
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();

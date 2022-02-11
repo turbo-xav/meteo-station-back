@@ -63,7 +63,7 @@ async function bootstrap() {
     sameSite: 'none',
     domain: 'localhost:8080',
   };*/
- 
+
   app.use(csurf({ cookie: true }));
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();

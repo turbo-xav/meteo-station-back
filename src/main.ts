@@ -51,11 +51,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(
     csurf({
-      cookie: true/*{
+      {
         sameSite: 'none',
-        secure: true,
-        domaine: 'https://localhost:8080',
-      },*/
+        secure: true        
+      },
     }),
   );
   app.use('*', (req, res, next) => {

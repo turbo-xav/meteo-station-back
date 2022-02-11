@@ -57,11 +57,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(
     csurf({ cookie: true }),
-    /*csurf({
-      sameSite: 'none',
-      secure: true,
-      domaine: 'localhost',
-    }),*/
+    csurf({
+      sameSite: 'none'
+    }),
   );
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();

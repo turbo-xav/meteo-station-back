@@ -5,10 +5,8 @@ import { StationController } from './station.controller';
 import { StationService } from './station.service';
 
 @Module({
-  imports:[    
-    StationHttpModule
-  ],
+  imports: [StationHttpModule],
   controllers: [StationController],
-  providers: [StationService]
+  providers: [StationService],
 })
 export class StationModule {}

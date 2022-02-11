@@ -56,15 +56,13 @@ async function bootstrap() {
   // CSRF
   app.use(cookieParser());
   //app.use(csurf({ cookie: true }));
-  /*const cookieOptions = {
-    signed: false,
-    secure: false,
-    httpOnly: false,
+  const cookieOptions = {
+    secure: true,
     sameSite: 'none',
-    domain: 'localhost:8080',
-  };*/
+  };
+  app.use(csurf({ cookie: cookieOptions }));
 
-  app.use(csurf({ cookie: true }));
+  //app.use(csurf({ cookie: true }));
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();
     res.cookie('XSRF-TOKEN', token);

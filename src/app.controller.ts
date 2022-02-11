@@ -1,18 +1,26 @@
-import { Controller, Get, Logger, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Hello } from './models/hello.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 /**
- * This is the root controller 
+ * This is the root controller
  * He hardly does anything but say hello
  */
 
 @ApiTags('Hello')
-@Controller("")
+@Controller('')
 export class AppController {
-
   /**
    * A logger for this contoller
    */
@@ -21,25 +29,20 @@ export class AppController {
 
   /**
    * We just inject AppService
-   * 
-   * @param appService 
+   *
+   * @param appService
    */
 
-
-  constructor(
-    private readonly appService: AppService
-  ) {
-
-  }
+  constructor(private readonly appService: AppService) {}
 
   /**
-    * Try to return a Hello message
-    */
+   * Try to return a Hello message
+   */
 
   @ApiResponse({
     status: 200,
     type: Hello,
-    description: 'Hello message to welcome to Meteo API'
+    description: 'Hello message to welcome to Meteo API',
   })
   @Get()
   getHello(): Hello {

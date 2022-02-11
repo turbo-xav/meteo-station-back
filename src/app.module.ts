@@ -10,7 +10,13 @@ import { LogModule } from './log/log.module';
 import { AuthModule } from './auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join, basename } from 'path';
-console.log(join(__filename.replace(basename(__filename),''), '../', 'meteo-station-front'));
+console.log(
+  join(
+    __filename.replace(basename(__filename), ''),
+    '../',
+    'meteo-station-front',
+  ),
+);
 /**
  * This the root module of yout App
  */
@@ -25,23 +31,18 @@ console.log(join(__filename.replace(basename(__filename),''), '../', 'meteo-stat
     /*ServeStaticModule.forRoot({
       rootPath:join(__filename.replace(basename(__filename),''), '../', 'meteo-station-front'),
       exclude: ['/api/*'],
-    }),*/      
+    }),*/
   ],
   controllers: [AppController],
-  providers: [
-      AppService      
-  ],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
-  
   /**
    * We configure all consumers
-   * 
-   * @param consumer 
+   *
+   * @param consumer
    */
   configure(consumer: MiddlewareConsumer) {
-    consumer       
-      .apply(LoggerMiddleware)
-      .forRoutes('*');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

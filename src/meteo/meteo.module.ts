@@ -5,10 +5,8 @@ import { MeteoController } from './meteo.controller';
 import { MeteoService } from './meteo.service';
 
 @Module({
-  imports:[    
-    MeteoHttpModule
-  ],
+  imports: [MeteoHttpModule],
   controllers: [MeteoController],
-  providers: [MeteoService]
+  providers: [MeteoService],
 })
 export class MeteoModule {}

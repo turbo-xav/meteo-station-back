@@ -7,7 +7,6 @@ import { StatsService } from './stats.service';
  * A controller to retrieve all recorded stats
  */
 
-
 @ApiHeader({
   name: 'Authorization',
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
@@ -15,22 +14,19 @@ import { StatsService } from './stats.service';
 @ApiTags('Stats')
 @Controller('station/stats')
 export class StatsController {
-
   /**
-   * 
+   *
    * @param statsService We just need StatsService
    */
 
-  constructor(
-    private readonly statsService: StatsService,   
-  ){}
+  constructor(private readonly statsService: StatsService) {}
 
   /**
    * Get the daily stats
    */
-  
+
   @Get('daily')
-  getDailyStats(): Promise<MeteoStats>{
+  getDailyStats(): Promise<MeteoStats> {
     return this.statsService.getDailyStats();
   }
 
@@ -38,9 +34,8 @@ export class StatsController {
    * Get the realtime stats
    */
 
-
   @Get('realtime')
-  getRealtimeStats(): Promise<MeteoStats>{
+  getRealtimeStats(): Promise<MeteoStats> {
     return this.statsService.getRealtimeStats();
   }
 }

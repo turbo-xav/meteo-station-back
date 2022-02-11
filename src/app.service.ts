@@ -7,10 +7,9 @@ import { Hello } from './models/hello.entity';
 
 @Injectable()
 export class AppService {
-  
   /**
-   * Default logger 
-   * 
+   * Default logger
+   *
    */
 
   private readonly logger = new Logger(AppService.name);
@@ -21,6 +20,6 @@ export class AppService {
 
   getHello(): Hello {
     this.logger.log('Try to return "Hello" message');
-    return { message : 'Hello World! This my connected meteo station' };
-  } 
+    return { message: 'Hello World! This my connected meteo station' };
+  }
 }

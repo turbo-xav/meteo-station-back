@@ -11,80 +11,91 @@ import { Meteo } from './models/meteo.entity';
 
 @Injectable()
 export class MeteoService {
-    
-    /**
-      * Url of Meteo Concept API 
-      *     
-      */
-    
-      private moeteoApiUrl: string;
-    
-    /**
-     * We need :
-     * - HTTP Service to call remote Meteo Concept REST service
-     * - Config service to know all URL to call
-     * @param httpService 
-     * @param configService 
-     */
-    
-    constructor(
-        private readonly httpService: HttpService,
-        private readonly configService: ConfigService
-        ){
-            this.moeteoApiUrl = this.configService.get('METEO_API_URL');
+  /**
+   * Url of Meteo Concept API
+   *
+   */
+
+  private moeteoApiUrl: string;
+
+  /**
+   * We need :
+   * - HTTP Service to call remote Meteo Concept REST service
+   * - Config service to know all URL to call
+   * @param httpService
+   * @param configService
+   */
+
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {
+    this.moeteoApiUrl = this.configService.get('METEO_API_URL');
+  }
+
+  /**
+   * Used to localise City (insee code)
+   *
+   * @param city : name of the city
+   *
+   */
+
+  public async localise(city: string): Promise<City> {
+    const url = `${this.moeteoApiUrl}/location/cities?search=${city}`;
+    const response = await this.httpService.get(`${url}`).toPromise();
+    return response.data !== undefined && response.data.cities !== undefined
+      ? response.data.cities[0]
+      : null;
+  }
+
+  /**
+   * Used to get the meteo detail of an insee code
+   *
+   * @param insse : insee code (ex : 94081)
+   *
+   */
+
+  public async getMeteo(insee: string): Promise<Meteo> {
+    const url = `${this.moeteoApiUrl}/forecast/daily?insee=${insee}`;
+    const response = await this.httpService.get(`${url}`).toPromise();
+    return response.data;
+  }
+
+  /**
+   * Used to get an ephemeride of an insee code
+   *
+   * @param insee : insee code (ex : 94081)
+   */
+
+  public async getEphemerides(insee: string): Promise<Ephemeride[]> {
+    let ephemerides: Ephemeride[] = [];
+    for (let day = 0; day < 14; day++) {
+      const url = `${this.configService.get(
+        'METEO_API_URL',
+      )}/ephemeride/${day}?insee=${insee}`;
+      const response = await this.httpService.get(`${url}`).toPromise();
+      ephemerides.push(
+        response.data !== undefined && response.data.ephemeride !== undefined
+          ? response.data.ephemeride
+          : null,
+      );
     }
+    return ephemerides;
+  }
 
-    /**
-     * Used to localise City (insee code)
-     * 
-     * @param city : name of the city
-     * 
-     */
+  /**
+   * Used to get the forecasts of an insee code
+   *
+   * @param insee : insee code (ex : 94081)
+   */
 
-    public async localise(city: string): Promise<City>{
-        const url = `${this.moeteoApiUrl}/location/cities?search=${city}`;
-        const response = await this.httpService.get(`${url}`).toPromise();
-        return response.data !== undefined && response.data.cities !== undefined ? response.data.cities[0] : null;
-    }
-
-     /**
-      * Used to get the meteo detail of an insee code
-      * 
-      * @param insse : insee code (ex : 94081)
-      * 
-      */
-
-    public async getMeteo(insee: string): Promise<Meteo> {
-        const url = `${this.moeteoApiUrl}/forecast/daily?insee=${insee}`;
-        const response = await this.httpService.get(`${url}`).toPromise();
-        return response.data;
-    }
-
-    /**
-     * Used to get an ephemeride of an insee code
-     * 
-     * @param insee : insee code (ex : 94081)
-     */
-
-    public async getEphemerides(insee: string): Promise<Ephemeride[]> {
-        let ephemerides: Ephemeride[]  = [];
-        for(let day = 0 ; day < 14 ; day++) {
-            const url = `${this.configService.get('METEO_API_URL')}/ephemeride/${day}?insee=${insee}`;        
-            const response = await this.httpService.get(`${url}`).toPromise();
-            ephemerides.push(response.data !== undefined && response.data.ephemeride !== undefined ? response.data.ephemeride : null);
-        }
-        return ephemerides;
-    }
-
-    /**
-     * Used to get the forecasts of an insee code
-     * 
-     * @param insee : insee code (ex : 94081)
-     */
-    
-    public async getForecasts(insee: string): Promise<Forecast[]> {       
-        const url = `${this.configService.get('METEO_API_URL')}/forecast/daily?insee=${insee}`;        
-        const response = await this.httpService.get(`${url}`).toPromise();
-        return response.data !== undefined && response.data.forecast !== undefined ? response.data.forecast : null;        
-    }
+  public async getForecasts(insee: string): Promise<Forecast[]> {
+    const url = `${this.configService.get(
+      'METEO_API_URL',
+    )}/forecast/daily?insee=${insee}`;
+    const response = await this.httpService.get(`${url}`).toPromise();
+    return response.data !== undefined && response.data.forecast !== undefined
+      ? response.data.forecast
+      : null;
+  }
 }

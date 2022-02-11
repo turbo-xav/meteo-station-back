@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwitchState } from './models/switch-state.interface';
 import { Measurement } from './models/mesurement.entity';
@@ -6,9 +14,8 @@ import { StationService } from './station.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 /**
-  * You can control the meteo station with this controller
-  */
-
+ * You can control the meteo station with this controller
+ */
 
 @ApiTags('Station')
 @ApiHeader({
@@ -18,81 +25,84 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('station')
 @UseGuards(JwtAuthGuard)
 export class StationController {
-    constructor(private readonly stationService: StationService) { }
-    
-    /**
-      * Get all devices
-      */
+  constructor(private readonly stationService: StationService) {}
 
-    @Post('devices')
-    async getDevices(): Promise<any> {      
-      return await this.stationService.getDevices();
-    }
+  /**
+   * Get all devices
+   */
 
-    /**
-     * Get registered meteo station
-     */
+  @Post('devices')
+  async getDevices(): Promise<any> {
+    return await this.stationService.getDevices();
+  }
 
-    @Get('device')
-    async getDevice(): Promise<any> {      
-      return await this.stationService.getDevice();
-    }
+  /**
+   * Get registered meteo station
+   */
 
-    /**
-     * Get registered meteo station
-     */
+  @Get('device')
+  async getDevice(): Promise<any> {
+    return await this.stationService.getDevice();
+  }
 
-    @Get('device/stats')
-    async getDeviceStats(): Promise<any> {      
-      return await this.stationService.getDeviceStats();
-    }
+  /**
+   * Get registered meteo station
+   */
 
-    /**
-     * Get current state of a resource
-     * - heater
-     * - led
-     * - screen
-     * 
-     * @param resource 
-     */
+  @Get('device/stats')
+  async getDeviceStats(): Promise<any> {
+    return await this.stationService.getDeviceStats();
+  }
 
-    @Get('device/:resource/state')
-    async getState(@Param('resource') resource: string): Promise<SwitchState> {
-      return await this.stationService.getState(resource);
-    }
+  /**
+   * Get current state of a resource
+   * - heater
+   * - led
+   * - screen
+   *
+   * @param resource
+   */
 
-    /**
-     * Get current measurement of registered meteo station 
-     */
+  @Get('device/:resource/state')
+  async getState(@Param('resource') resource: string): Promise<SwitchState> {
+    return await this.stationService.getState(resource);
+  }
 
-    @Get('device/mesurement')    
-    @ApiResponse({
-        status: 200,
-        type: Measurement,
-        description: 'Measurement of temperature, humidity, pressure' }
-    )
-    async meteo(): Promise<Measurement> {
-      return await this.stationService.getMeteoMeasurement();
-    }
+  /**
+   * Get current measurement of registered meteo station
+   */
 
-     /**
-     * Can switch OFF or OFF a resource
-     * 
-     * @param resource : resource like (heater-state, led-state) 
-     * @param switchState : ON or OFF
-     */
+  @Get('device/mesurement')
+  @ApiResponse({
+    status: 200,
+    type: Measurement,
+    description: 'Measurement of temperature, humidity, pressure',
+  })
+  async meteo(): Promise<Measurement> {
+    return await this.stationService.getMeteoMeasurement();
+  }
 
-    @Put('device/:resource')
-    async switchresource(@Body() switchOnOFF: SwitchState, @Param('resource') resource: string ): Promise<void> {
-      return await this.stationService.switchresource(resource,switchOnOFF);
-    }
+  /**
+   * Can switch OFF or OFF a resource
+   *
+   * @param resource : resource like (heater-state, led-state)
+   * @param switchState : ON or OFF
+   */
 
-    /**
-      * Restart registered meteo station
-      */
-    
-    @Put('restart')
-    async restart(): Promise<void> {
-        return await this.stationService.restart();
-    }
+  @Put('device/:resource')
+  async switchresource(
+    @Body() switchOnOFF: SwitchState,
+    @Param('resource') resource: string,
+  ): Promise<void> {
+    return await this.stationService.switchresource(resource, switchOnOFF);
+  }
+
+  /**
+   * Restart registered meteo station
+   */
+
+  @Put('restart')
+  async restart(): Promise<void> {
+    return await this.stationService.restart();
+  }
 }

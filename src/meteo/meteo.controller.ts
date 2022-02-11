@@ -18,81 +18,73 @@ import { MeteoService } from './meteo.service';
 })
 @Controller('meteo')
 export class MeteoController {
-  constructor(
-    private readonly meteoService: MeteoService
-  ) {
-
-  }
+  constructor(private readonly meteoService: MeteoService) {}
 
   /**
    * Get city detail
-   * 
+   *
    * @param city city name
    */
-
 
   @ApiResponse({
     status: 200,
     type: City,
-    description: 'Localisation of a city according its name'
+    description: 'Localisation of a city according its name',
   })
   @Get('city/:city')
-  async getLacolisation(@Param('city') city: string ): Promise<City> {
-    return this.meteoService.localise(city);    
+  async getLacolisation(@Param('city') city: string): Promise<City> {
+    return this.meteoService.localise(city);
   }
 
-   /**
-    * Get actual city meteo detail
-    * 
-    * @param city city name
-    */
-  
+  /**
+   * Get actual city meteo detail
+   *
+   * @param city city name
+   */
+
   @ApiResponse({
     status: 200,
     type: Meteo,
-    description: 'Actual meteo'
+    description: 'Actual meteo',
   })
   @Get(':city')
-  async getMeteo(@Param('city') city: string ): Promise<Meteo> {
-    const cityDetail: City = await this.meteoService.localise(city);     
+  async getMeteo(@Param('city') city: string): Promise<Meteo> {
+    const cityDetail: City = await this.meteoService.localise(city);
     return this.meteoService.getMeteo(cityDetail.insee);
   }
 
   /**
    * Get actual city ephemeride detail
-   * 
+   *
    * @param city city name
    */
-
 
   @ApiResponse({
     status: 200,
     type: Ephemeride,
-    description: 'Actual city\'s ephemeride'
+    description: "Actual city's ephemeride",
   })
   @Get('ephemerides/:city')
-  async getEphemride(@Param('city') city: string ): Promise<Ephemeride[]> {
-    const cityDetail: City = await this.meteoService.localise(city); 
-    for(let i = 0 ; i < 14 ; ++i){}
+  async getEphemride(@Param('city') city: string): Promise<Ephemeride[]> {
+    const cityDetail: City = await this.meteoService.localise(city);
+    for (let i = 0; i < 14; ++i) {}
     return this.meteoService.getEphemerides(cityDetail.insee);
   }
 
-   /**
+  /**
    * Get actual city meteo forecast detail
-   * 
+   *
    * @param city city name
    */
-
 
   @ApiResponse({
     status: 200,
     type: Forecast,
-    description: 'Actual city\'s meteo forecast'
+    description: "Actual city's meteo forecast",
   })
   @Get('forecasts/:city')
-  async getForecasts(@Param('city') city: string ): Promise<Forecast[]> {
+  async getForecasts(@Param('city') city: string): Promise<Forecast[]> {
     const cityDetail: City = await this.meteoService.localise(city);
     return this.meteoService.getForecasts(cityDetail.insee);
   }
-
 }

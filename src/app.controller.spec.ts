@@ -16,7 +16,9 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World! This my connected meteo station"', () => {
-      expect(appController.getHello()).toBe('Hello World! This my connected meteo station');
+      expect(appController.getHello()).toBe(
+        'Hello World! This my connected meteo station',
+      );
     });
   });
 });

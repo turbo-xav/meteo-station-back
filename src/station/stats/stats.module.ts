@@ -5,10 +5,8 @@ import { StatsController } from './stats.controller';
 import { StatsService } from './stats.service';
 
 @Module({
-  imports:[    
-    StationHttpModule
-  ],
+  imports: [StationHttpModule],
   controllers: [StatsController],
-  providers: [StatsService]
+  providers: [StatsService],
 })
 export class StatsModule {}

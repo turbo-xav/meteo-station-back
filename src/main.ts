@@ -53,10 +53,9 @@ async function bootstrap() {
   });
   // Default Helmet
   app.use(helmet());
-  // CSRF 
-    // Cookie parser before
+  // CSRF Cookie parser before
   app.use(cookieParser());
-    // For Cross domain Samesite None & only HTTPS (secure) to enable "Set-Cookie" header in response
+  // For Cross domain Samesite None & only HTTPS (secure) to enable "Set-Cookie" header in response
   const cookieOptions = {
     secure: true,
     sameSite: 'none',
@@ -66,11 +65,11 @@ async function bootstrap() {
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();
     res.cookie('XSRF-TOKEN', token);
-    res.header('Access-Control-Expose-Headers', 'XSRF-TOKEN');
+    /*res.header('Access-Control-Expose-Headers', 'XSRF-TOKEN');
     res.header(
       'Access-Control-Allow-Headers',
       'Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN',
-    );
+    );*/
     res.header('XSRF-TOKEN', token);
     console.log('token', token);
     next();

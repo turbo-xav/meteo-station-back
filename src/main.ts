@@ -53,7 +53,8 @@ async function bootstrap() {
     csurf(
       {
         sameSite: 'none',
-        secure: true        
+        secure: true,
+        domaine: 'localhost',
       },
     ),
   );

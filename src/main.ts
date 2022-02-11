@@ -21,19 +21,16 @@ const PORT = process.env.PORT || 2000;
  */
 
 async function bootstrap() {
-  
   const httpsOptions = {
     // Local
-    //key: fs.readFileSync('./cert2/key.pem'),
-    //cert: fs.readFileSync('./cert2/cert.pem')
+    key: fs.readFileSync('./cert2/key.pem'),
+    cert: fs.readFileSync('./cert2/cert.pem'),
     // Droplet
-    key: fs.readFileSync('./cert2/meteo-back.projets-web.fr/private.key'),
-    cert: fs.readFileSync('./cert2/meteo-back.projets-web.fr/certificate.crt')
-
+    //key: fs.readFileSync('./cert2/meteo-back.projets-web.fr/private.key'),
+    //cert: fs.readFileSync('./cert2/meteo-back.projets-web.fr/certificate.crt')
   };
   // Create the Nest App Instance
-  const app = await NestFactory.create(AppModule,  { httpsOptions });
-  
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
   // All Url begin with "api" ex: http://urlweb.domain/api/....
   app.setGlobalPrefix('api');
@@ -45,26 +42,36 @@ async function bootstrap() {
 
   // Default CORS
   const configService = app.get(ConfigService);
-  
+
   app.enableCors({
     origin: configService.get<string>('FRONT_URL'),
-    credentials: true
+    credentials: true,
   });
   // Default Helmet
   app.use(helmet());
-  // CSRF  
-  app.use(cookieParser()); 
-  app.use(csurf({ cookie: true }));
+  // CSRF
+  app.use(cookieParser());
+  app.use(
+    csurf({
+      cookie: true/*{
+        sameSite: 'none',
+        secure: true,
+        domaine: 'https://localhost:8080',
+      },*/
+    }),
+  );
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();
     res.cookie('XSRF-TOKEN', token);
-    res.header("Access-Control-Expose-Headers", "XSRF-TOKEN");
-    res.header("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN");
-    res.header('XSRF-TOKEN',  token);
-    console.log('token', token)
+    res.header('Access-Control-Expose-Headers', 'XSRF-TOKEN');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header, Set-Cookie, XSRF-TOKEN',
+    );
+    res.header('XSRF-TOKEN', token);
+    console.log('token', token);
     next();
   });
-
 
   // Configure OPEN API Swagger
   const configOpenApi = new DocumentBuilder()

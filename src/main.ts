@@ -50,12 +50,12 @@ async function bootstrap() {
   // CSRF
   app.use(cookieParser());
   app.use(
-    csurf({
+    csurf(
       {
         sameSite: 'none',
         secure: true        
       },
-    }),
+    ),
   );
   app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();

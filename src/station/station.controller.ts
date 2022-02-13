@@ -72,7 +72,7 @@ export class StationController {
    * Get current measurement of registered meteo station
    */
 
-  @Get('device/mesurement')
+  @Get('device/measurement')
   @ApiResponse({
     status: 200,
     type: Measurement,

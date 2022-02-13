@@ -21,6 +21,8 @@ const PORT = process.env.PORT || 2000;
  */
 
 async function bootstrap() {
+  console.log(process.env);
+  
   const privateKeyFile =
     process.env.NODE_ENV === 'prod'
       ? './cert2/meteo-back.projets-web.fr/private.key'

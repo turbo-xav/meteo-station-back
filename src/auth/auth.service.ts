@@ -25,6 +25,7 @@ export class AuthService {
     profile: Profile,
     provider: Provider,
   ): Promise<string> {
+    console.log('Validate');
     try {
       // You can add some registration logic here,
       // to register the user using their thirdPartyId (in this case their googleId)
@@ -37,7 +38,7 @@ export class AuthService {
         profile,
         provider,
       };
-      console.log(payload);
+      console.log('payload', payload);
 
       const token: string = jwt.sign(payload, this.JWT_SECRET_KEY, {
         expiresIn: 3600,
@@ -57,6 +58,7 @@ export class AuthService {
     if (!req.user) {
       return 'No user from google';
     }
+    //console.log(req.user);
 
     return {
       message: 'User information from google',

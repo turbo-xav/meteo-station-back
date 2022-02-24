@@ -44,8 +44,8 @@ export class AuthController {
 
   @Get('code')
   connect(@Query('code') code, @Res() res): any {
-    this.logger.log(`try to get code:${code}`);
-    const url = `${this.configService.get(
+    this.logger.log(`redirect to front & get acess token from code:${code}`);
+    const url = `${this.configService.get<string>(
       'FRONT_URL_REDIR',
     )}${encodeURIComponent(code)}`;
     this.logger.log(`redirect to : ${url}`);

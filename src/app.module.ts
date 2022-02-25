@@ -10,6 +10,9 @@ import { LogModule } from './log/log.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as fs from 'fs';
+import { Meteo_User } from './models/user.entity';
+import { Meteo_Device } from './models/device.entity';
+import { Connection } from 'typeorm';
 
 /**
  * This the root module of yout App
@@ -25,15 +28,17 @@ import * as fs from 'fs';
       username: 'doadmin',
       password: 'wFE16HvUS8OWx63W',
       database: 'defaultdb',
-      entities: [],
-      synchronize: true,
+      entities: [Meteo_User, Meteo_Device],
+      synchronize: false,
       ssl: true,
+      logging: true,
       extra: {
         ssl: {
           ca: fs.readFileSync('./cert/postgresql/ca-certificate.crt', 'utf8'),
         },
       },
     }),
+    TypeOrmModule.forFeature([Meteo_User, Meteo_Device]),
     ConfigurationModule,
     LogModule,
     MeteoModule,
@@ -45,6 +50,7 @@ import * as fs from 'fs';
   providers: [AppService],
 })
 export class AppModule implements NestModule {
+  constructor(private connection: Connection) {}
   /**
    * We configure all consumers
    *

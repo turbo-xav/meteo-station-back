@@ -46,6 +46,7 @@ export class AppController {
   })
   @Get()
   getHello(): Hello {
+    this.appService.findAll();
     this.logger.log('Try to say hello message');
     const helloMessage = this.appService.getHello();
     this.logger.log(`Hello message is : ${helloMessage.message}`);

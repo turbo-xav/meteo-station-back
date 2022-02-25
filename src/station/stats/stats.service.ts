@@ -43,11 +43,14 @@ export class StatsService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.rootUrl = this.configService.get('THINGER_IO_API_URL');
+    this.rootUrl = this.configService.get<string>('THINGER_IO_API_URL');
     this.rootUrlBuckets =
-      this.rootUrl + this.configService.get('THINGER_IO_API_BUCKETS_PATH');
-    this.bucketH24 = this.configService.get('THINGER_IO_BUCKET_H24');
-    this.bucketDaily = this.configService.get('THINGER_IO_BUCKET_DAILY');
+      this.rootUrl +
+      this.configService.get<string>('THINGER_IO_API_BUCKETS_PATH');
+    this.bucketH24 = this.configService.get<string>('THINGER_IO_BUCKET_H24');
+    this.bucketDaily = this.configService.get<string>(
+      'THINGER_IO_BUCKET_DAILY',
+    );
   }
 
   /**
@@ -55,6 +58,7 @@ export class StatsService {
    */
 
   public async getRealtimeStats(): Promise<MeteoStats> {
+    console.log('realtime');
     const url = `${this.rootUrlBuckets}/${this.bucketH24}/data`;
     const response = await this.httpService.get(`${url}`).toPromise();
     return response.data;

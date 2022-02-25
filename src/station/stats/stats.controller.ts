@@ -1,4 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  CacheTTL,
+  Controller,
+  Get,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { MeteoStats } from './models/meteo-stats.entity';
 import { StatsService } from './stats.service';
@@ -13,6 +19,7 @@ import { StatsService } from './stats.service';
 })
 @ApiTags('Stats')
 @Controller('station/stats')
+@UseInterceptors(CacheInterceptor)
 export class StatsController {
   /**
    *
@@ -23,18 +30,22 @@ export class StatsController {
 
   /**
    * Get the daily stats
+   * 50 last measure each Day at noon
    */
 
   @Get('daily')
+  @CacheTTL(24 * 3600)
   getDailyStats(): Promise<MeteoStats> {
     return this.statsService.getDailyStats();
   }
 
   /**
    * Get the realtime stats
+   * 50 last measures each 30 min
    */
 
   @Get('realtime')
+  @CacheTTL(30 * 60)
   getRealtimeStats(): Promise<MeteoStats> {
     return this.statsService.getRealtimeStats();
   }

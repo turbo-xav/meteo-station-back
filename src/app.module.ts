@@ -8,30 +8,38 @@ import { StationModule } from './station/station.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { LogModule } from './log/log.module';
 import { AuthModule } from './auth/auth.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join, basename } from 'path';
-console.log(
-  join(
-    __filename.replace(basename(__filename), ''),
-    '../',
-    'meteo-station-front',
-  ),
-);
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as fs from 'fs';
+
 /**
  * This the root module of yout App
  */
+
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host:
+        'db-postgresql-lon1-02137-do-user-10474124-0.b.db.ondigitalocean.com',
+      port: 25060,
+      username: 'doadmin',
+      password: 'wFE16HvUS8OWx63W',
+      database: 'defaultdb',
+      entities: [],
+      synchronize: true,
+      ssl: true,
+      extra: {
+        ssl: {
+          ca: fs.readFileSync('./cert/postgresql/ca-certificate.crt', 'utf8'),
+        },
+      },
+    }),
     ConfigurationModule,
     LogModule,
     MeteoModule,
     StatsModule,
     StationModule,
     AuthModule,
-    /*ServeStaticModule.forRoot({
-      rootPath:join(__filename.replace(basename(__filename),''), '../', 'meteo-station-front'),
-      exclude: ['/api/*'],
-    }),*/
   ],
   controllers: [AppController],
   providers: [AppService],

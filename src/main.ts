@@ -29,10 +29,6 @@ async function bootstrap() {
     process.env.HTTP_SSL_PRIVATE_KEY || './cert/localhost/key.pem';
   const certFile = process.env.HTTP_SSL_CERT || './cert/localhost/cert.pem';
 
-
-console.log('privateKeyFile = ',privateKeyFile);
-console.log('certFile = ',certFile);
-
   const httpsOptions: HttpsOptions = {
     key: fs.readFileSync(privateKeyFile),
     cert: fs.readFileSync(certFile),

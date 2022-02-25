@@ -40,12 +40,12 @@ export class MeteoService {
    *
    */
 
-  public async localise(city: string): Promise<City> {
+  public async localise(city: string): Promise<City | undefined> {
     const url = `${this.moeteoApiUrl}/location/cities?search=${city}`;
     const response = await this.httpService.get(`${url}`).toPromise();
     return response.data !== undefined && response.data.cities !== undefined
       ? response.data.cities[0]
-      : null;
+      : undefined;
   }
 
   /**

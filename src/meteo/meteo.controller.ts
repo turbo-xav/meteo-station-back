@@ -1,4 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { City } from './models/city.entity';
 import { Ephemeride } from './models/ephemeride.entity';
@@ -17,6 +23,7 @@ import { MeteoService } from './meteo.service';
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
 @Controller('meteo')
+@UseInterceptors(CacheInterceptor)
 export class MeteoController {
   constructor(private readonly meteoService: MeteoService) {}
 
@@ -65,10 +72,11 @@ export class MeteoController {
     description: "Actual city's ephemeride",
   })
   @Get('ephemerides/:city')
-  async getEphemride(@Param('city') city: string): Promise<Ephemeride[]> {
+  async getEphemeride(@Param('city') city: string): Promise<Ephemeride[]> {
     const cityDetail: City = await this.meteoService.localise(city);
-    for (let i = 0; i < 14; ++i) {}
-    return this.meteoService.getEphemerides(cityDetail.insee);
+    if (cityDetail?.insee !== undefined) {
+      return this.meteoService.getEphemerides(cityDetail.insee);
+    }
   }
 
   /**

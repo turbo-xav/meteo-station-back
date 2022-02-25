@@ -9,29 +9,27 @@ import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
-
+import { config } from 'dotenv';
+import { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface';
+config();
 /**
  *  We can define an env var to choose another port
  */
 
-const PORT = process.env.PORT || 2000;
+const HTTP_PORT = process.env.HTTP_PORT || 2000;
 
 /**
  * It starts our HTTP application
  */
 
 async function bootstrap() {
-  console.log(process.env);
   
+  // HTTP Server définition
   const privateKeyFile =
-    process.env.NODE_ENV === 'prod'
-      ? './cert2/meteo-back.projets-web.fr/private.key'
-      : './cert2/key.pem';
-  const certFile =
-    process.env.NODE_ENV === 'prod'
-      ? './cert2/meteo-back.projets-web.fr/certificate.crt'
-      : './cert2/cert.pem';
-  const httpsOptions = {
+    process.env.HTTP_SSL_PRIVATE_KEY || './cert/localhost/key.pem';
+  const certFile = process.env.HTTP_SSL_CERT || './cert/localhost/cert.pem';
+
+  const httpsOptions: HttpsOptions = {
     key: fs.readFileSync(privateKeyFile),
     cert: fs.readFileSync(certFile),
   };
@@ -85,8 +83,8 @@ async function bootstrap() {
   });
   SwaggerModule.setup('doc', app, OpenApiDocument);
   // Load API on defined PORT (cf .env file or env vars in deployment environment)
-  await app.listen(PORT);
+  await app.listen(HTTP_PORT);
   // Boot message
-  console.log(`Application started on PORT : ${PORT}`);
+  console.log(`Application started on PORT : ${HTTP_PORT}`);
 }
 bootstrap();

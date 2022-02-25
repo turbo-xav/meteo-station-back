@@ -45,11 +45,12 @@ export class AuthController {
   @Get('code')
   connect(@Query('code') code, @Res() res): any {
     this.logger.log(`redirect to front & get acess token from code:${code}`);
-    const url = `${this.configService.get<string>(
-      'FRONT_URL_REDIR',
-    )}${encodeURIComponent(code)}`;
-    this.logger.log(`redirect to : ${url}`);
-    res.redirect(301, url);
+    const frontUrlRoot = this.configService.get<string>('FRONT_URL');
+    const urlForCode = this.configService.get<string>('FRONT_URL_REDIR');
+    const encodedCode = `${encodeURIComponent(code)}`;
+    const frontUrlWithCode = `${frontUrlRoot}${urlForCode}${encodedCode}`;
+    this.logger.log(`redirect to : ${frontUrlWithCode}`);
+    res.redirect(301, frontUrlWithCode);
   }
 
   @UseGuards(AuthGuard('google'))

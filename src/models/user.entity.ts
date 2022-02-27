@@ -12,7 +12,7 @@ export class Meteo_User {
   lastname: string;
 
   @Column()
-  mail: string;
+  email: string;
 
   @Column()
   picture: string;

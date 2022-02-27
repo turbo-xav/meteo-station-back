@@ -77,6 +77,7 @@ export class AuthController {
       req.user as UserInfos,
     );
     this.logger.log(infos, 'Google Infos returned to front');
+    this.authService.register(req.user as UserInfos);
     return infos;
   }
 }

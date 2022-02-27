@@ -3,9 +3,11 @@ import {
   CacheTTL,
   Controller,
   Get,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MeteoStats } from './models/meteo-stats.entity';
 import { StatsService } from './stats.service';
 
@@ -19,6 +21,7 @@ import { StatsService } from './stats.service';
 })
 @ApiTags('Stats')
 @Controller('station/stats')
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(CacheInterceptor)
 export class StatsController {
   /**

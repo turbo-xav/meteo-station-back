@@ -36,9 +36,9 @@ export class AppService {
 
   async findAll(): Promise<Meteo_User[]> {
     const users = await this.usersRepository.find();
-    console.log(users);
+    this.logger.log(users, 'List of users');
     const devices = await this.deviceRepository.find();
-    console.log(devices);
+    this.logger.log(devices, 'List of devices');
     return users;
   }
 }

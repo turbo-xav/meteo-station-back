@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -11,6 +12,7 @@ import { Ephemeride } from './models/ephemeride.entity';
 import { Forecast } from './models/forecast.entity';
 import { Meteo } from './models/meteo.entity';
 import { MeteoService } from './meteo.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 /**
  * This controller enable to know meteo for a city
@@ -23,6 +25,7 @@ import { MeteoService } from './meteo.service';
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
 @Controller('meteo')
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(CacheInterceptor)
 export class MeteoController {
   constructor(private readonly meteoService: MeteoService) {}

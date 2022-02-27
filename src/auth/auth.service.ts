@@ -1,68 +1,61 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { Profile } from 'passport-google-oauth20';
-import { config } from 'dotenv';
 import { ConfigService } from '@nestjs/config';
-config();
 
-export enum Provider {
-  GOOGLE = 'google',
+export interface UserInfos {
+  email: string;
+  firstname: string;
+  lastname: string;
+  picture: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface GoogleInfos {
+  message: string;
+  user: UserInfos;
 }
 
 @Injectable()
 export class AuthService {
-  private readonly JWT_SECRET_KEY: string; // <- replace this with your secret key
+  /**
+   * Logger
+   */
+  private readonly logger = new Logger(AuthService.name);
 
-  constructor(private readonly configService: ConfigService) {
-    this.JWT_SECRET_KEY = this.configService.get('JWT_SECRET_KEY');
-  }
+  /**
+   *
+   * @param configService  ConfigService
+   */
 
-  public verifyToken(token: string): any {
-    return jwt.verify(token, this.JWT_SECRET_KEY);
-  }
+  constructor(private readonly configService: ConfigService) {}
 
-  async validateOAuthLogin(
-    profile: Profile,
-    provider: Provider,
-  ): Promise<string> {
-    console.log('Validate');
-    try {
-      // You can add some registration logic here,
-      // to register the user using their thirdPartyId (in this case their googleId)
-      // let user: IUser = await this.usersService.findOneByThirdPartyId(thirdPartyId, provider);
+  /**
+   *
+   * @param token Verify token vilidity & return decoded token
+   * @returns
+   */
 
-      // if (!user)
-      // user = await this.usersService.registerOAuthUser(thirdPartyId, provider);
-
-      const payload = {
-        profile,
-        provider,
-      };
-      console.log('payload', payload);
-
-      const token: string = jwt.sign(payload, this.JWT_SECRET_KEY, {
-        expiresIn: 3600,
-      });
-      return token;
-    } catch (err) {
-      throw new InternalServerErrorException('validateOAuthLogin', err.message);
-    }
+  verifyToken(token: string): unknown {
+    return jwt.verify(token, this.configService.get<string>('JWT_SECRET_KEY'));
   }
 
   /**
-   * Return user logged with google
-   * @param req
+   * Return user logged with google or UnauthorizedException Exception if no user
+   * @param req HTTP request transporting user infos
+   * @returns GoogleInfos
    */
 
-  googleInfos(req) {
-    if (!req.user) {
-      return 'No user from google';
+  googleInfos(user?: UserInfos): GoogleInfos {
+    if (!user) {
+      throw new UnauthorizedException('unauthorized');
     }
-    //console.log(req.user);
 
-    return {
+    const infos: GoogleInfos = {
       message: 'User information from google',
-      user: req.user,
+      user: user as UserInfos,
     };
+    this.logger.log(infos, 'Google infos calculated:');
+    return infos;
   }
 }

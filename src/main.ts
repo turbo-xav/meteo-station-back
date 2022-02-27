@@ -22,7 +22,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 2000;
  * It starts our HTTP application
  */
 
-async function bootstrap() {
+const bootstrap = async () => {
   // HTTP Server définition
   const privateKeyFile =
     process.env.HTTP_SSL_PRIVATE_KEY || './cert/localhost/key.pem';
@@ -85,5 +85,5 @@ async function bootstrap() {
   await app.listen(HTTP_PORT);
   // Boot message
   console.log(`Application started on PORT : ${HTTP_PORT}`);
-}
+};
 bootstrap();

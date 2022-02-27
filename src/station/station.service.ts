@@ -2,6 +2,7 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SwitchState } from './models/switch-state.interface';
 import { Measurement } from './models/mesurement.entity';
+import { lastValueFrom } from 'rxjs';
 
 /**
  * This service can command registered meteo station
@@ -55,9 +56,9 @@ export class StationService {
    */
 
   public async getDevices(): Promise<any> {
-    const response = await this.httpService
-      .get(`${this.rootUrl}${this.devicesUrl}`)
-      .toPromise();
+    const response = await lastValueFrom(
+      this.httpService.get(`${this.rootUrl}${this.devicesUrl}`),
+    );
     return response.data;
   }
 
@@ -66,9 +67,11 @@ export class StationService {
    */
 
   public async getDevice(): Promise<any> {
-    const response = await this.httpService
-      .get(`${this.rootUrl}${this.devicesUrl}/${this.deviceId}`)
-      .toPromise();
+    const response = await lastValueFrom(
+      this.httpService.get(
+        `${this.rootUrl}${this.devicesUrl}/${this.deviceId}`,
+      ),
+    );
     return response.data;
   }
 
@@ -77,9 +80,11 @@ export class StationService {
    */
 
   public async getDeviceStats(): Promise<any> {
-    const response = await this.httpService
-      .get(`${this.rootUrl}${this.devicesUrl}/${this.deviceId}/stats`)
-      .toPromise();
+    const response = await lastValueFrom(
+      this.httpService.get(
+        `${this.rootUrl}${this.devicesUrl}/${this.deviceId}/stats`,
+      ),
+    );
     return response.data;
   }
 
@@ -94,11 +99,11 @@ export class StationService {
     resource: string,
     switchOnOFF: SwitchState,
   ): Promise<void> {
-    const response = await this.httpService
-      .post(`${this.rootUrl}${this.resourcesUrl}${resource}`, {
+    const response = await lastValueFrom(
+      this.httpService.post(`${this.rootUrl}${this.resourcesUrl}${resource}`, {
         in: switchOnOFF.state === 'ON',
-      })
-      .toPromise();
+      }),
+    );
     return response.data;
   }
   /**
@@ -108,9 +113,12 @@ export class StationService {
    */
 
   public async getState(resource: string): Promise<SwitchState> {
-    const response = await this.httpService
-      .get(`${this.rootUrl}${this.resourcesUrl}${resource}-state`)
-      .toPromise();
+    const response = await lastValueFrom(
+      this.httpService.get(
+        `${this.rootUrl}${this.resourcesUrl}${resource}-state`,
+      ),
+    );
+
     return response.data;
   }
 
@@ -119,9 +127,9 @@ export class StationService {
    */
 
   public async getMeteoMeasurement(): Promise<Measurement> {
-    const response = await this.httpService
-      .get(`${this.rootUrl}${this.resourcesUrl}meteo`)
-      .toPromise();
+    const response = await lastValueFrom(
+      this.httpService.get(`${this.rootUrl}${this.resourcesUrl}meteo`),
+    );
     return response.data;
   }
 
@@ -130,8 +138,8 @@ export class StationService {
    */
 
   public async restart(): Promise<void> {
-    await this.httpService
-      .post(`${this.rootUrl}${this.resourcesUrl}reseting`)
-      .toPromise();
+    await lastValueFrom(
+      this.httpService.post(`${this.rootUrl}${this.resourcesUrl}reseting`),
+    );
   }
 }

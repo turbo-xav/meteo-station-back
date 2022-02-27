@@ -2,7 +2,7 @@ import { Controller, Get, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Hello } from './models/hello.entity';
-import { ConfigService } from '@nestjs/config';
+
 /**
  * This is the root controller
  * He hardly does anything but say hello
@@ -23,11 +23,7 @@ export class AppController {
    * @param appService
    */
 
-  constructor(
-    private readonly appService: AppService,
-    private readonly configService: ConfigService){
-      console.log('BDD HOST', configService.get<string>('BDD_HOST'));
-}
+  constructor(private readonly appService: AppService) {}
 
   /**
    * Try to return a Hello message

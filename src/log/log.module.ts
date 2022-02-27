@@ -11,6 +11,8 @@ import * as winston from 'winston';
         format: winston.format.combine(
           winston.format.timestamp(),
           utilities.format.nestLike(),
+          //winston.format.prettyPrint()
+          //winston.format.json(),
         ),
         transports: [
           // Default console output

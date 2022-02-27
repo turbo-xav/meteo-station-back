@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { utilities, WinstonModule } from 'nest-winston';
-import { config } from 'rxjs';
 import * as winston from 'winston';
 
 @Module({

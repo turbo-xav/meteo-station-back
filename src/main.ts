@@ -23,7 +23,6 @@ const HTTP_PORT = process.env.HTTP_PORT || 2000;
  */
 
 async function bootstrap() {
-  
   // HTTP Server définition
   const privateKeyFile =
     process.env.HTTP_SSL_PRIVATE_KEY || './cert/localhost/key.pem';

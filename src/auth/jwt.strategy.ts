@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   /**
    * Logger
    */
-   private readonly logger = new Logger(JwtStrategy.name);
+  private readonly logger = new Logger(JwtStrategy.name);
   /**
    * Init JWT Passprot stratégy with secret key and bearer header
    * @param configService : Instance of config service to get JWT infos (sercet, ...)

@@ -10,7 +10,7 @@ export class Meteo_Device {
 
   @Column()
   thingerio_bearer: string;
-  
+
   @Column()
   user_id: number;
 }

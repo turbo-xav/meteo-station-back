@@ -17,6 +17,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService, GoogleInfos, UserInfos } from './auth.service';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
+import { User } from 'src/decorator/user.decorator';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -69,15 +70,14 @@ export class AuthController {
 
   @UseGuards(AuthGuard('google'))
   @Get('token')
-  token(@Req() req: Request, @Query() query: Record<string, unknown>): any {
+  token(@User() user: UserInfos, @Query() query: Record<string, unknown>): any {
     this.logger.log(
-      `try to get infos & token from authentication code : ${query?.code}`,
+      query?.code as string,
+      'try to get infos & token from authentication code : ',
     );
-    const infos: GoogleInfos = this.authService.googleInfos(
-      req.user as UserInfos,
-    );
+    const infos: GoogleInfos = this.authService.googleInfos(user);
     this.logger.log(infos, 'Google Infos returned to front');
-    this.authService.register(req.user as UserInfos);
+    this.authService.register(user as UserInfos);
     return infos;
   }
 }

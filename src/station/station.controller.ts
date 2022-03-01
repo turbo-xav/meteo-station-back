@@ -36,7 +36,6 @@ export class StationController {
 
   @Post('devices')
   @Roles(Role.ADMIN)
-  
   async getDevices(): Promise<any> {
     return await this.stationService.getDevices();
   }

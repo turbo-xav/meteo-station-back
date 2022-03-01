@@ -7,7 +7,6 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 
-
 /**
  * JWT Auth guard to check JWT authentication
  */

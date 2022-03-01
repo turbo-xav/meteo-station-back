@@ -24,7 +24,6 @@ export interface GoogleInfos {
 
 @Injectable()
 export class AuthService {
-
   /**
    * Logger
    */
@@ -73,7 +72,7 @@ export class AuthService {
     return infos;
   }
 
-  public async userInfosFromBdd(user: UserInfos): Promise<Meteo_User>{
+  public async userInfosFromBdd(user: UserInfos): Promise<Meteo_User> {
     return await this.usersRepository.findOne({
       email: user.email,
     });

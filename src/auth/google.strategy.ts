@@ -46,7 +46,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-
     // Infos from JWT Bearer
     const { name, emails, photos } = profile;
     const user: UserInfos = {
@@ -65,7 +64,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       user.role = userBdd.role as Role;
     }
 
-    // 
+    //
     const payload = {
       ...user,
       token: jwt.sign(user, process.env.JWT_SECRET_KEY, { expiresIn: 3600 }),

@@ -4,7 +4,9 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
+
 
 /**
  * JWT Auth guard to check JWT authentication
@@ -17,6 +19,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
    */
 
   private readonly logger = new Logger(JwtAuthGuard.name);
+
+  constructor(private readonly reflector: Reflector) {
+    super();
+  }
 
   /**
    * Personalised canActivate method

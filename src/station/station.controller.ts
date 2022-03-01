@@ -12,6 +12,9 @@ import { SwitchState } from './models/switch-state.interface';
 import { Measurement } from './models/mesurement.entity';
 import { StationService } from './station.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/decorator/roles.decorator';
+import { Role } from 'src/auth/role.enum';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 /**
  * You can control the meteo station with this controller
@@ -23,7 +26,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
 @Controller('station')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class StationController {
   constructor(private readonly stationService: StationService) {}
 
@@ -32,6 +35,8 @@ export class StationController {
    */
 
   @Post('devices')
+  @Roles(Role.ADMIN)
+  
   async getDevices(): Promise<any> {
     return await this.stationService.getDevices();
   }

@@ -5,12 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Meteo_Device } from 'src/models/device.entity';
 import { Meteo_User } from 'src/models/user.entity';
+import { Role } from './role.enum';
 
 export interface UserInfos {
   email: string;
   firstname: string;
   lastname: string;
   picture: string;
+  role: Role;
   accessToken: string;
   refreshToken: string;
 }
@@ -22,6 +24,7 @@ export interface GoogleInfos {
 
 @Injectable()
 export class AuthService {
+
   /**
    * Logger
    */
@@ -56,7 +59,7 @@ export class AuthService {
    * @returns GoogleInfos
    */
 
-  googleInfos(user?: UserInfos): GoogleInfos {
+  googleInfosAndRegister(user?: UserInfos): GoogleInfos {
     if (!user) {
       throw new UnauthorizedException('unauthorized');
     }
@@ -66,21 +69,27 @@ export class AuthService {
       user: user as UserInfos,
     };
     this.logger.log(infos, 'Google infos calculated:');
+    this.register(infos.user);
     return infos;
+  }
+
+  public async userInfosFromBdd(user: UserInfos): Promise<Meteo_User>{
+    return await this.usersRepository.findOne({
+      email: user.email,
+    });
   }
 
   /**
    * Register user infos into DataBase with refeshed datas
    */
 
-  async register(user: UserInfos): Promise<void> {
-    const userLogged: Meteo_User = await this.usersRepository.findOne({
-      email: user.email,
-    });
-    userLogged.firstname = user.firstname;
-    userLogged.lastname = user.lastname;
-    userLogged.picture = user.picture;
-    userLogged.email = user.email;
-    await this.usersRepository.save(userLogged);
+  private async register(user: UserInfos): Promise<void> {
+    const userBddLogged: Meteo_User = await this.userInfosFromBdd(user);
+    userBddLogged.firstname = user.firstname;
+    userBddLogged.lastname = user.lastname;
+    userBddLogged.picture = user.picture;
+    userBddLogged.email = user.email;
+    user.role = userBddLogged.role as Role;
+    await this.usersRepository.save(userBddLogged);
   }
 }

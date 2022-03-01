@@ -75,9 +75,8 @@ export class AuthController {
       query?.code as string,
       'try to get infos & token from authentication code : ',
     );
-    const infos: GoogleInfos = this.authService.googleInfos(user);
+    const infos: GoogleInfos = this.authService.googleInfosAndRegister(user);
     this.logger.log(infos, 'Google Infos returned to front');
-    this.authService.register(user as UserInfos);
     return infos;
   }
 }

@@ -19,7 +19,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    
+     strategy:
+      matrix:
+        node-version: [14.x]
+        
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -36,6 +40,15 @@ jobs:
           echo - It Build with npm run build
           echo - It Deploys build with SSH on server 
           echo - It Launch Server With PM2 Deamon process manager
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:

@@ -24,7 +24,7 @@ import { Meteo_Device } from '../models/device.entity';
           password: configService.get<string>('BDD_PASS'),
           database: configService.get<string>('BDD_BASE'),
           entities: [Meteo_User, Meteo_Device],
-          synchronize: false,
+          synchronize: true,
           ssl: true,
           logging: true,
           extra: {

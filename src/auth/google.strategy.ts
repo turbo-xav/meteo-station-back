@@ -32,7 +32,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   /**
-   * Validate JWT and make payload
+   * Validate JWT and make payload calles after Google call with code
+   * ?code=....
    *
    * @param accessToken
    * @param refreshToken
@@ -46,7 +47,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    // Infos from JWT Bearer
+    // Infos from Google Access Token
     const { name, emails, photos } = profile;
     const user: UserInfos = {
       email: emails[0].value,
@@ -60,6 +61,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
     // Try to get infos from user into BDD
     const userBdd: Meteo_User = await this.authService.userInfosFromBdd(user);
+    user.role = Role.USER;
     if (userBdd !== undefined) {
       user.role = userBdd.role as Role;
     }

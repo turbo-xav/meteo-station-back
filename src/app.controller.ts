@@ -1,7 +1,8 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, OnModuleInit } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Hello } from './models/hello.entity';
+import { AuthService } from './auth/auth.service';
 
 /**
  * This is the root controller
@@ -10,7 +11,7 @@ import { Hello } from './models/hello.entity';
 
 @ApiTags('Hello')
 @Controller('')
-export class AppController {
+export class AppController implements OnModuleInit  {
   /**
    * A logger for this contoller
    */
@@ -23,7 +24,17 @@ export class AppController {
    * @param appService
    */
 
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private authService: AuthService,
+  ) {}
+
+  /** */
+
+  async onModuleInit() {
+    this.logger.log(`Fill data base`);
+    await this.authService.fillDataBase();
+  }
 
   /**
    * Try to return a Hello message
@@ -35,10 +46,10 @@ export class AppController {
     description: 'Hello message to welcome to Meteo API',
   })
   @Get()
-  getHello(): Hello {
+  async getHello(): Promise<Hello> {
     this.logger.log('Try to say hello message');
     const helloMessage = this.appService.getHello();
-    this.logger.log(`Hello message is : ${helloMessage.message}`);
+    this.logger.log(`Hello message is : ${helloMessage.message}`);    
     return helloMessage;
   }
 }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Meteo_Device } from './device.entity';
 
 @Entity('meteo_user')
 export class Meteo_User {
@@ -19,4 +20,7 @@ export class Meteo_User {
 
   @Column()
   role: 'ADMIN' | 'USER' = 'USER';
+
+  @OneToMany(() => Meteo_Device, (device) => device.user)
+  photos: Meteo_Device[];
 }

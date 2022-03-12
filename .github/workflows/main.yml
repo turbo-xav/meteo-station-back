@@ -68,6 +68,6 @@ jobs:
             port: 22
             script: | 
               cd ${{ secrets.REMOTE_TARGET }}               
-              echo ${{secrets.ENV_PROD}} > .env.prod.test
+              echo "${{secrets.ENV_PROD}}" > .env.prod.test
               chmod +x  ${{ secrets.REMOTE_TARGET }}/scripts/start.sh 
               ${{ secrets.REMOTE_TARGET }}/scripts/./start.sh

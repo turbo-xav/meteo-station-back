@@ -11,7 +11,7 @@ import { AuthService } from './auth/auth.service';
 
 @ApiTags('Hello')
 @Controller('')
-export class AppController implements OnModuleInit  {
+export class AppController implements OnModuleInit {
   /**
    * A logger for this contoller
    */
@@ -29,7 +29,7 @@ export class AppController implements OnModuleInit  {
     private authService: AuthService,
   ) {}
 
-  /** */
+  /** Called Just after Module Initilisation */
 
   async onModuleInit() {
     this.logger.log(`Fill data base`);
@@ -49,7 +49,7 @@ export class AppController implements OnModuleInit  {
   async getHello(): Promise<Hello> {
     this.logger.log('Try to say hello message');
     const helloMessage = this.appService.getHello();
-    this.logger.log(`Hello message is : ${helloMessage.message}`);    
+    this.logger.log(`Hello message is : ${helloMessage.message}`);
     return helloMessage;
   }
 }

@@ -100,11 +100,11 @@ export class AuthService {
   }
 
   /**
-   * Fill DataBase when necassary 
+   * Fill DataBase when necassary
    */
 
   public async fillDataBase(): Promise<void> {
-     const users: Meteo_User[] = [
+    const users: Meteo_User[] = [
       {
         id: 1,
         email: 'xavier.tagliarino@gmail.com',

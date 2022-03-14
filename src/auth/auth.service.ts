@@ -111,7 +111,8 @@ export class AuthService {
         role: Role.ADMIN,
         firstname: 'unkown before connecion',
         lastname: 'he is ADMIN by default',
-        picture: 'where is my picture',
+        picture:
+          'https://lh3.googleusercontent.com/a-/AOh14GimFdnllqH5tW8GrxT0gdvfJQRcCEsmzjyuskBKVY8=s96-c',
       } as Meteo_User,
       {
         id: 2,
@@ -119,7 +120,8 @@ export class AuthService {
         role: Role.USER,
         firstname: 'unkown before connecion',
         lastname: 'he is USER by default',
-        picture: 'i lost my picture',
+        picture:
+          'https://lh3.googleusercontent.com/a/AATXAJw65kaTv7CjioK37FKJgliXcT5ubGZXIZXL29sf=s96-c',
       } as Meteo_User,
     ];
 

@@ -12,6 +12,7 @@ import { Connection } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Meteo_User } from './models/user.entity';
 import { Meteo_Device } from './models/device.entity';
+import { UsersModule } from './admin/users/users.module';
 
 /**
  * This the root module of yout App
@@ -26,6 +27,7 @@ import { Meteo_Device } from './models/device.entity';
     StationModule,
     AuthModule,
     TypeOrmModule.forFeature([Meteo_User, Meteo_Device]),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

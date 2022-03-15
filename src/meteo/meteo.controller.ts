@@ -13,6 +13,9 @@ import { Forecast } from './models/forecast.entity';
 import { Meteo } from './models/meteo.entity';
 import { MeteoService } from './meteo.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
+import { Role } from 'src/auth/role.enum';
 
 /**
  * This controller enable to know meteo for a city
@@ -25,7 +28,8 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
 @Controller('meteo')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.USER)
 @UseInterceptors(CacheInterceptor)
 export class MeteoController {
   constructor(private readonly meteoService: MeteoService) {}

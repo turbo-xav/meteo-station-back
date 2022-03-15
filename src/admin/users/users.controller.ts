@@ -1,6 +1,9 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role } from 'src/auth/role.enum';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
 import { Meteo_User } from 'src/models/user.entity';
 import { UsersService } from './users.service';
 
@@ -9,7 +12,8 @@ import { UsersService } from './users.service';
   name: 'Authorization',
   description: 'Bearer xxxxxxxxxxxxxxxxxxxxxxxx',
 })
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -24,7 +28,7 @@ export class UsersController {
     type: Meteo_User,
     description: 'List of users',
   })
-  @Get('')
+  @Get('')  
   async user(): Promise<Meteo_User[]> {
     return this.usersService.users();
   }

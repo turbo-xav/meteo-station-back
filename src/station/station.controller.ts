@@ -27,6 +27,7 @@ import { RolesGuard } from 'src/auth/roles.guard';
 })
 @Controller('station')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.USER)
 export class StationController {
   constructor(private readonly stationService: StationService) {}
 
@@ -34,8 +35,7 @@ export class StationController {
    * Get all devices
    */
 
-  @Post('devices')
-  @Roles(Role.ADMIN)
+  @Post('devices')  
   async getDevices(): Promise<any> {
     return await this.stationService.getDevices();
   }

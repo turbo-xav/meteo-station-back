@@ -8,6 +8,9 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role } from 'src/auth/role.enum';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
 import { MeteoStats } from './models/meteo-stats.entity';
 import { StatsService } from './stats.service';
 
@@ -21,7 +24,8 @@ import { StatsService } from './stats.service';
 })
 @ApiTags('Stats')
 @Controller('station/stats')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.USER)
 @UseInterceptors(CacheInterceptor)
 export class StatsController {
   /**

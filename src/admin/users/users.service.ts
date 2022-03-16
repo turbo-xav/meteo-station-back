@@ -30,4 +30,13 @@ export class UsersService {
     }
     return user;
   }
+
+  /**
+   * Save user
+   */
+
+   async save(user: Meteo_User): Promise<Meteo_User> {
+    const updatedUser: Meteo_User = await this.usersRepository.save(user);
+    return updatedUser;
+  }
 }

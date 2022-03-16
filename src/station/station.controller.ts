@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwitchState } from './models/switch-state.interface';
 import { Measurement } from './models/mesurement.entity';
@@ -35,7 +27,7 @@ export class StationController {
    * Get all devices
    */
 
-  @Post('devices')  
+  @Get('devices')
   async getDevices(): Promise<any> {
     return await this.stationService.getDevices();
   }

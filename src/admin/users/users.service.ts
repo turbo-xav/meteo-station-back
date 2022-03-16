@@ -17,4 +17,12 @@ export class UsersService {
   users(): Promise<Meteo_User[]> {
     return this.usersRepository.find();
   }
+
+  /**
+   * Return users by id
+   */
+
+  user(id: number): Promise<Meteo_User> {
+    return this.usersRepository.findOne(id);
+  }
 }

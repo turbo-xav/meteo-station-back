@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ApiHeader, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Role } from 'src/auth/role.enum';
@@ -28,8 +28,23 @@ export class UsersController {
     type: Meteo_User,
     description: 'List of users',
   })
-  @Get('')  
-  async user(): Promise<Meteo_User[]> {
+  @Get('')
+  async users(): Promise<Meteo_User[]> {
     return this.usersService.users();
+  }
+
+  /**
+   * Get city detail
+   *
+   * @param city city name
+   */
+  @ApiResponse({
+    status: 200,
+    type: Meteo_User,
+    description: 'List of users',
+  })
+  @Get(':id')
+  async user(@Param('id') id: number): Promise<Meteo_User> {
+    return this.usersService.user(id);
   }
 }

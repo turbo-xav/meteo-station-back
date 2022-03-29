@@ -8,18 +8,16 @@ import { StationModule } from './station/station.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { LogModule } from './log/log.module';
 import { AuthModule } from './auth/auth.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join, basename } from 'path';
-console.log(
-  join(
-    __filename.replace(basename(__filename), ''),
-    '../',
-    'meteo-station-front',
-  ),
-);
+import { Connection } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Meteo_User } from './models/user.entity';
+import { Meteo_Device } from './models/device.entity';
+import { UsersModule } from './admin/users/users.module';
+
 /**
  * This the root module of yout App
  */
+
 @Module({
   imports: [
     ConfigurationModule,
@@ -28,15 +26,14 @@ console.log(
     StatsModule,
     StationModule,
     AuthModule,
-    /*ServeStaticModule.forRoot({
-      rootPath:join(__filename.replace(basename(__filename),''), '../', 'meteo-station-front'),
-      exclude: ['/api/*'],
-    }),*/
+    TypeOrmModule.forFeature([Meteo_User, Meteo_Device]),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
+  constructor(private connection: Connection) {}
   /**
    * We configure all consumers
    *

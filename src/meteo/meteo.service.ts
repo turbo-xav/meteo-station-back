@@ -4,7 +4,7 @@ import { City } from './models/city.entity';
 import { Ephemeride } from './models/ephemeride.entity';
 import { Forecast } from './models/forecast.entity';
 import { Meteo } from './models/meteo.entity';
-
+import { lastValueFrom } from 'rxjs';
 /**
  * This is the meteo Service
  */
@@ -42,7 +42,7 @@ export class MeteoService {
 
   public async localise(city: string): Promise<City | undefined> {
     const url = `${this.moeteoApiUrl}/location/cities?search=${city}`;
-    const response = await this.httpService.get(`${url}`).toPromise();
+    const response = await lastValueFrom(this.httpService.get(`${url}`));
     return response.data !== undefined && response.data.cities !== undefined
       ? response.data.cities[0]
       : undefined;
@@ -57,7 +57,7 @@ export class MeteoService {
 
   public async getMeteo(insee: string): Promise<Meteo> {
     const url = `${this.moeteoApiUrl}/forecast/daily?insee=${insee}`;
-    const response = await this.httpService.get(`${url}`).toPromise();
+    const response = await lastValueFrom(this.httpService.get(`${url}`));
     return response.data;
   }
 
@@ -68,12 +68,12 @@ export class MeteoService {
    */
 
   public async getEphemerides(insee: string): Promise<Ephemeride[]> {
-    let ephemerides: Ephemeride[] = [];
+    const ephemerides: Ephemeride[] = [];
     for (let day = 0; day < 14; day++) {
       const url = `${this.configService.get(
         'METEO_API_URL',
       )}/ephemeride/${day}?insee=${insee}`;
-      const response = await this.httpService.get(`${url}`).toPromise();
+      const response = await lastValueFrom(this.httpService.get(`${url}`));
       ephemerides.push(
         response.data !== undefined && response.data.ephemeride !== undefined
           ? response.data.ephemeride
@@ -93,7 +93,7 @@ export class MeteoService {
     const url = `${this.configService.get(
       'METEO_API_URL',
     )}/forecast/daily?insee=${insee}`;
-    const response = await this.httpService.get(`${url}`).toPromise();
+    const response = await lastValueFrom(this.httpService.get(`${url}`));
     return response.data !== undefined && response.data.forecast !== undefined
       ? response.data.forecast
       : null;

@@ -1,5 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { lastValueFrom } from 'rxjs';
 import { MeteoStats } from './models/meteo-stats.entity';
 
 /**
@@ -60,7 +61,7 @@ export class StatsService {
   public async getRealtimeStats(): Promise<MeteoStats> {
     console.log('realtime');
     const url = `${this.rootUrlBuckets}/${this.bucketH24}/data`;
-    const response = await this.httpService.get(`${url}`).toPromise();
+    const response = await lastValueFrom(this.httpService.get(`${url}`));
     return response.data;
   }
 
@@ -70,7 +71,7 @@ export class StatsService {
 
   public async getDailyStats(): Promise<MeteoStats> {
     const url = `${this.rootUrlBuckets}/${this.bucketDaily}/data`;
-    const response = await this.httpService.get(`${url}`).toPromise();
+    const response = await lastValueFrom(this.httpService.get(`${url}`));
     return response.data;
   }
 }

@@ -5,7 +5,6 @@ import {
   OnModuleInit,
   HttpModule as BaseHttpModule,
 } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({})
 export class HttpModule implements OnModuleInit {

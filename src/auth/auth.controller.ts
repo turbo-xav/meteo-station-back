@@ -54,12 +54,15 @@ export class AuthController {
   @Get('code')
   connect(@Query('code') code, @Res() response): any {
     this.logger.log(`redirect to front & get acess token from code : ${code}`);
+    // Root URL
     const frontUrlRoot = this.configService.get<string>('FRONT_URL');
-    this.logger.log(`FRONT_URL : ${frontUrlRoot}`);
-    const urlForCode = this.configService.get<string>('FRONT_URL_REDIR');
-    this.logger.log(`FRONT_URL_REDIR : ${urlForCode}`);
+    // Front URL
+    let frontUrlForCode = this.configService.get<string>('FRONT_URL_REDIR');
+    // Adding /# if necessary
+    const useHash: boolean = JSON.parse(this.configService.get<string>('FRONT_URL_USER_HASH'));    
+    frontUrlForCode = useHash === true ? `/#${frontUrlForCode}`: frontUrlForCode;        
     const encodedCode = encodeURIComponent(code);
-    const frontUrlWithCode = `${frontUrlRoot}${urlForCode}${encodedCode}`;
+    const frontUrlWithCode = `${frontUrlRoot}${frontUrlForCode}${encodedCode}`;
     this.logger.log(`redirect to : ${frontUrlWithCode}`);
     response.redirect(301, frontUrlWithCode);
   }

@@ -60,11 +60,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     };
 
     // Try to get infos from user into BDD
-    const userBdd: Meteo_User = await this.authService.userInfosFromBdd(user);
+    /*const userBdd: Meteo_User = await this.authService.userInfosFromBdd(user);
     user.role = Role.USER;
     if (userBdd !== undefined) {
       user.role = userBdd.role as Role;
-    }
+    }*/
 
     //
     const payload = {

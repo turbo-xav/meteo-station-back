@@ -24,16 +24,17 @@ const HTTP_PORT = process.env.HTTP_PORT || 2000;
 
 const bootstrap = async () => {
   // HTTP Server définition
-  const privateKeyFile =
+  /*const privateKeyFile =
     process.env.HTTP_SSL_PRIVATE_KEY || './cert/localhost/key.pem';
   const certFile = process.env.HTTP_SSL_CERT || './cert/localhost/cert.pem';
 
   const httpsOptions: HttpsOptions = {
     key: fs.readFileSync(privateKeyFile),
     cert: fs.readFileSync(certFile),
-  };
+  };*/
   // Create the Nest App Instance
-  const app = await NestFactory.create(AppModule, { httpsOptions });
+  //const app = await NestFactory.create(AppModule, { httpsOptions });
+  const app = await NestFactory.create(AppModule);
 
   // All Url begin with "api" ex: http://urlweb.domain/api/....
   app.setGlobalPrefix('api');
@@ -53,22 +54,22 @@ const bootstrap = async () => {
   // Default Helmet
   app.use(helmet());
   // CSRF Cookie parser before
-  app.use(cookieParser());
+  /*app.use(cookieParser());
   // For Cross domain Samesite None & only HTTPS (secure) to enable "Set-Cookie" header in response
   const cookieOptions = {
     secure: true,
     sameSite: 'none',
   };
-  app.use(csurf({ cookie: cookieOptions }));
+  app.use(csurf({ cookie: cookieOptions }));*/
   // Get and return csrfToken
-  app.use('*', (req, res, next) => {
+  /*app.use('*', (req, res, next) => {
     const token: string = req.csrfToken();
     res.cookie('XSRF-TOKEN', token);
     res.header('Access-Control-Expose-Headers', 'XSRF-TOKEN');
     res.header('XSRF-TOKEN', token);
     console.log('token', token);
     next();
-  });
+  });*/
   // Configure OPEN API Swagger
   const configOpenApi = new DocumentBuilder()
     .setTitle('Hello world API')

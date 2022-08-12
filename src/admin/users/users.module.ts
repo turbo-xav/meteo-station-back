@@ -7,7 +7,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Meteo_User, Meteo_Device])],
+  imports: [/*TypeOrmModule.forFeature([Meteo_User, Meteo_Device])*/],
   controllers: [UsersController],
   providers: [JwtStrategy, UsersService],
   exports: [],

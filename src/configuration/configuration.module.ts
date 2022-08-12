@@ -12,7 +12,7 @@ import { Meteo_Device } from '../models/device.entity';
       envFilePath:
         process.env.NODE_ENV == 'dev' ? '.env' : ['.env.prod', '.env'],
     }),
-    TypeOrmModule.forRootAsync({
+    /*TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
@@ -36,7 +36,7 @@ import { Meteo_Device } from '../models/device.entity';
             },
           },
         } as TypeOrmModuleOptions),
-    }),
+    }),*/
   ],
 })
 export class ConfigurationModule {}

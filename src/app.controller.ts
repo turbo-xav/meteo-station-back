@@ -33,7 +33,7 @@ export class AppController implements OnModuleInit {
 
   async onModuleInit() {
     this.logger.log(`Fill data base`);
-    await this.authService.fillDataBase();
+    //await this.authService.fillDataBase();
   }
 
   /**

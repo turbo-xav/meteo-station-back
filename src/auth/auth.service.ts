@@ -36,11 +36,11 @@ export class AuthService {
 
   constructor(
     private readonly configService: ConfigService,
-    @InjectRepository(Meteo_User)
+    /*@InjectRepository(Meteo_User)
     private usersRepository: Repository<Meteo_User>,
     @InjectRepository(Meteo_Device)
     private deviceRepository: Repository<Meteo_Device>,
-    private connection: Connection,
+    private connection: Connection,*/
   ) {}
 
   /**
@@ -69,22 +69,22 @@ export class AuthService {
       user: user as UserInfos,
     };
     this.logger.log(infos, 'Google infos calculated:');
-    this.register(infos.user);
+    //this.register(infos.user);
     return infos;
   }
 
-  public async userInfosFromBdd(user: UserInfos): Promise<Meteo_User> {
+  /*public async userInfosFromBdd(user: UserInfos): Promise<Meteo_User> {
     return await this.usersRepository.findOne({
       email: user.email,
     });
-  }
+  }*/
 
   /**
    * Register user infos into DataBase with refeshed datas
    */
 
   private async register(user: UserInfos): Promise<void> {
-    let userBddLogged: Meteo_User = await this.userInfosFromBdd(user);
+    /*let userBddLogged: Meteo_User = await this.userInfosFromBdd(user);
     //console.log(user, userBddLogged);
     if (userBddLogged === undefined) {
       userBddLogged = new Meteo_User();
@@ -96,14 +96,14 @@ export class AuthService {
     userBddLogged.picture = user.picture;
     userBddLogged.email = user.email;
     user.role = userBddLogged.role as Role;
-    await this.usersRepository.save(userBddLogged);
+    await this.usersRepository.save(userBddLogged);*/
   }
 
   /**
    * Fill DataBase when necassary
    */
 
-  public async fillDataBase(): Promise<void> {
+  /*public async fillDataBase(): Promise<void> {
     const users: Meteo_User[] = [
       {
         id: 1,
@@ -146,5 +146,5 @@ export class AuthService {
       this.logger.log(device, 'Device created');
       await this.deviceRepository.save(device);
     }
-  }
+  }*/
 }

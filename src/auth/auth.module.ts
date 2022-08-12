@@ -8,7 +8,7 @@ import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Meteo_User, Meteo_Device])],
+  imports: [/*TypeOrmModule.forFeature([Meteo_User, Meteo_Device])*/],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, JwtStrategy],
   exports: [AuthService],

@@ -34,8 +34,7 @@ const bootstrap = async () => {
   };*/
   // Create the Nest App Instance
   //const app = await NestFactory.create(AppModule, { httpsOptions });
-  const app = await NestFactory.create(AppModule);
-  console.log(process.env);
+  const app = await NestFactory.create(AppModule);  
   // All Url begin with "api" ex: http://urlweb.domain/api/....
   app.setGlobalPrefix('api');
 

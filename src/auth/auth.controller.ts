@@ -59,8 +59,8 @@ export class AuthController {
     // Front URL
     let frontUrlForCode = this.configService.get<string>('FRONT_URL_REDIR');
     // Adding /# if necessary
-    const useHash: boolean = JSON.parse(this.configService.get<string>('FRONT_URL_USE_HASH'));    
-    frontUrlForCode = useHash === true ? `/#${frontUrlForCode}`: frontUrlForCode;        
+    //const useHash: boolean = JSON.parse(this.configService.get<string>('FRONT_URL_USE_HASH'));    
+    //frontUrlForCode = useHash === true ? `/#${frontUrlForCode}`: frontUrlForCode;        
     const encodedCode = encodeURIComponent(code);
     const frontUrlWithCode = `${frontUrlRoot}${frontUrlForCode}${encodedCode}`;
     this.logger.log(`redirect to : ${frontUrlWithCode}`);

@@ -55,7 +55,9 @@ export class AuthController {
   connect(@Query('code') code, @Res() response): any {
     this.logger.log(`redirect to front & get acess token from code : ${code}`);
     const frontUrlRoot = this.configService.get<string>('FRONT_URL');
+    this.logger.log(`FRONT_URL : ${frontUrlRoot}`);
     const urlForCode = this.configService.get<string>('FRONT_URL_REDIR');
+    this.logger.log(`FRONT_URL_REDIR : ${urlForCode}`);
     const encodedCode = encodeURIComponent(code);
     const frontUrlWithCode = `${frontUrlRoot}${urlForCode}${encodedCode}`;
     this.logger.log(`redirect to : ${frontUrlWithCode}`);
